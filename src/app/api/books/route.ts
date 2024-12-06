@@ -19,10 +19,10 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     // 요청 본문에서 데이터 추출
-    const { title, author, publishedYear, genre, summary } = await req.json();
+    const { title, author, published_year, genre, summary } = await req.json();
 
     // 유효성 검사
-    if (!title || !author || !publishedYear) {
+    if (!title || !author || !published_year) {
       return NextResponse.json(
         { error: "Title, author, and publishedYear are required." },
         { status: 400 }
@@ -32,7 +32,7 @@ export async function POST(req: Request) {
     // 데이터베이스에 데이터 삽입
     const result = await sql`
       INSERT INTO books (title, author, published_year, genre, summary)
-      VALUES (${title}, ${author}, ${publishedYear}, ${genre}, ${summary})
+      VALUES (${title}, ${author}, ${published_year}, ${genre}, ${summary})
       RETURNING *
     `;
 
@@ -42,41 +42,6 @@ export async function POST(req: Request) {
     console.error("Error inserting book:", error);
     return NextResponse.json(
       { error: "Failed to insert book." },
-      { status: 500 }
-    );
-  }
-}
-
-export async function DELETE(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
-  try {
-    // 요청에서 ID 추출
-    const { id } = params;
-
-    if (!id) {
-      return NextResponse.json({ error: "ID is required." }, { status: 400 });
-    }
-
-    // 데이터베이스에서 책 삭제
-    const result = await sql`
-      DELETE FROM books WHERE id = ${id} RETURNING *
-    `;
-
-    // 삭제된 데이터 확인
-    if (result.length === 0) {
-      return NextResponse.json({ error: "Book not found." }, { status: 404 });
-    }
-
-    return NextResponse.json(
-      { message: "Book deleted successfully.", deletedBook: result[0] },
-      { status: 200 }
-    );
-  } catch (error) {
-    console.error("Error deleting book:", error);
-    return NextResponse.json(
-      { error: "Failed to delete book." },
       { status: 500 }
     );
   }
