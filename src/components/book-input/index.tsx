@@ -8,7 +8,7 @@ type EditBookInputProps = {
   type?: "text" | "number" | "textarea";
 };
 
-const EditBookInput: React.FC<EditBookInputProps> = ({
+const BookInput: React.FC<EditBookInputProps> = ({
   label,
   name,
   value,
@@ -42,4 +42,4 @@ const EditBookInput: React.FC<EditBookInputProps> = ({
   );
 };
 
-export default EditBookInput;
+export default BookInput;

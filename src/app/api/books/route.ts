@@ -19,10 +19,10 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     // 요청 본문에서 데이터 추출
-    const { title, author, publishedYear, genre, summary } = await req.json();
+    const { title, author, published_year, genre, summary } = await req.json();
 
     // 유효성 검사
-    if (!title || !author || !publishedYear) {
+    if (!title || !author || !published_year) {
       return NextResponse.json(
         { error: "Title, author, and publishedYear are required." },
         { status: 400 }
@@ -32,7 +32,7 @@ export async function POST(req: Request) {
     // 데이터베이스에 데이터 삽입
     const result = await sql`
       INSERT INTO books (title, author, published_year, genre, summary)
-      VALUES (${title}, ${author}, ${publishedYear}, ${genre}, ${summary})
+      VALUES (${title}, ${author}, ${published_year}, ${genre}, ${summary})
       RETURNING *
     `;
 
@@ -46,4 +46,3 @@ export async function POST(req: Request) {
     );
   }
 }
-

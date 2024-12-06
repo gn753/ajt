@@ -8,7 +8,7 @@ interface EditBookSelectProps {
   onChange: (value: string) => void;
 }
 
-const EditBookSelect = ({
+const BookSelect = ({
   label,
   name,
   value,
@@ -40,4 +40,4 @@ const EditBookSelect = ({
   );
 };
 
-export default EditBookSelect;
+export default BookSelect;

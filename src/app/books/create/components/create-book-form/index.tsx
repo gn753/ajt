@@ -2,10 +2,10 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import EditBookInput from "@/components/book-input";
-import EditBookSelect from "@/components/book-select";
-import { updateBook } from "@/actions/update-book";
-import { BookResponse } from "@/types/books";
+import BookInput from "@/components/book-input";
+import BookSelect from "@/components/book-select";
+import { createBook } from "@/actions/create-book";
+import { BookRequest } from "@/types/books";
 
 const GENRES = [
   "소설",
@@ -18,15 +18,14 @@ const GENRES = [
   "자기계발",
 ];
 
-const EditBookForm = ({ book }: { book: BookResponse }) => {
+const CreateBookForm = () => {
   const router = useRouter();
-
-  const [formData, setFormData] = useState<Partial<BookResponse>>({
-    title: book.title,
-    author: book.author,
-    published_year: book.published_year,
-    genre: book.genre,
-    summary: book.summary,
+  const [formData, setFormData] = useState<BookRequest>({
+    title: "",
+    author: "",
+    published_year: new Date().getFullYear(),
+    genre: "",
+    summary: "",
   });
 
   const handleChange = (name: string, value: string | number) => {
@@ -37,48 +36,47 @@ const EditBookForm = ({ book }: { book: BookResponse }) => {
     e.preventDefault();
 
     try {
-      await updateBook(book.id.toString(), formData);
-      alert("책 정보가 성공적으로 수정되었습니다.");
-      router.push(`/books/${book.id}`); // 수정 후 상세 페이지로 이동
-      router.refresh(); // 서버 컴포넌트 데이터 새로고침
+      await createBook(formData);
+      alert("책이 성공적으로 추가되었습니다.");
+      router.push("/books"); // 책 목록 페이지로 이동
     } catch (error) {
       console.error(error);
-      alert("책 수정에 실패했습니다.");
+      alert("책 추가에 실패했습니다.");
     }
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <EditBookInput
+      <BookInput
         label="책 제목"
         name="title"
-        value={formData.title || ""}
+        value={formData.title}
         onChange={(value) => handleChange("title", value)}
       />
-      <EditBookInput
+      <BookInput
         label="저자"
         name="author"
-        value={formData.author || ""}
+        value={formData.author}
         onChange={(value) => handleChange("author", value)}
       />
-      <EditBookInput
+      <BookInput
         label="출판 연도"
         name="published_year"
-        value={formData.published_year || ""}
+        value={formData.published_year}
         onChange={(value) => handleChange("published_year", parseInt(value))}
         type="number"
       />
-      <EditBookSelect
+      <BookSelect
         label="장르"
         name="genre"
         options={GENRES}
-        value={formData.genre || ""}
+        value={formData.genre}
         onChange={(value) => handleChange("genre", value)}
       />
-      <EditBookInput
+      <BookInput
         label="요약"
         name="summary"
-        value={formData.summary || ""}
+        value={formData.summary}
         onChange={(value) => handleChange("summary", value)}
         type="textarea"
       />
@@ -92,4 +90,4 @@ const EditBookForm = ({ book }: { book: BookResponse }) => {
   );
 };
 
-export default EditBookForm;
+export default CreateBookForm;

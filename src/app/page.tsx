@@ -16,7 +16,7 @@ const HomePage = () => {
           책 목록 보기
         </Link>
         <Link
-          href="/add-book"
+          href="/books/create"
           className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
         >
           책 추가하기

@@ -45,7 +45,7 @@ export async function PUT(
       WHERE id = ${id};
     `;
 
-    if (result.count === 0) {
+    if (result.length === 0) {
       return NextResponse.json({ error: "Book not found" }, { status: 404 });
     }
 

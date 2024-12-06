@@ -1,6 +1,7 @@
 import React from "react";
 import "./globals.css"; // Tailwind CSS 초기화 파일
 import type { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Book Manager",
@@ -14,14 +15,16 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         {/* 헤더 */}
         <header className="bg-blue-500 text-white py-4">
           <div className="container mx-auto px-4 flex justify-between items-center">
-            <h1 className="text-xl font-bold">📚 Book Manager</h1>
+            <h1 className="text-xl font-bold">
+              <Link href="/">📚 Book Manager</Link>
+            </h1>
             <nav className="space-x-4">
-              <a href="/books" className="hover:underline">
+              <Link href="/books" className="hover:underline">
                 책 목록
-              </a>
-              <a href="/add-book" className="hover:underline">
+              </Link>
+              <Link href="/books/create" className="hover:underline">
                 책 추가
-              </a>
+              </Link>
             </nav>
           </div>
         </header>

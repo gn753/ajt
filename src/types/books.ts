@@ -6,3 +6,4 @@ export interface BookResponse {
   genre: string;
   summary: string;
 }
+export type BookRequest = Omit<BookResponse, "id">;
